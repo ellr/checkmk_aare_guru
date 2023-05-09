@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+# -*- encoding: utf-8; py-indent-offset: 4 -*-
+
+# This is free software;  you can redistribute it and/or modify it
+# under the  terms of the  GNU General Public License  as published by
+# the Free Software Foundation in version 2.  check_mk is  distributed
+# in the hope that it will be useful, but WITHOUT ANY WARRANTY;  with-
+# out even the implied warranty of  MERCHANTABILITY  or  FITNESS FOR A
+# PARTICULAR PURPOSE. See the  GNU General Public License for more de-
+# tails. You should have  received  a copy of the  GNU  General Public
+# License along with GNU Make; see the file  COPYING.  If  not,  write
+# to the Free Software Foundation, Inc., 51 Franklin St,  Fifth Floor,
+# Boston, MA 02110-1301 USA.
+
+"""
+Check MK Datasource Programm for Aare Guru
+Data is fetched via https://aareguru.existenz.ch/ 
+
+Authors:    Roger Ellenberger <roger.ellenberger@wagner.ch>
+
+"""
+
+from argparse import ArgumentParser
+from typing import Dict
+import requests
+import json
+
+
+###############################################################################
+# Constants                                                                   #
+###############################################################################
+
+NAME = 'checkmk_aare_guru'
+VERSION = '0.1'
+
+SECTIONS: set = {'aare', 'weather', 'sun', 'bueber'}
+
+###############################################################################
+# HTTP calls                                                                  #
+###############################################################################
+
+class AareGuru:
+    """The AareGuru class abstracts all calls to the external API.
+
+    - builds the URL
+    - handles proxy settings compatbile to both styles pre CMK 2.0 and CMK 2.1 and beyond
+    - fetches the data from the external API
+    """
+
+    def __init__(self, args) -> None:
+        self.url: str = f'https://aareguru.existenz.ch/v2018/current?city={args.city}&app={NAME}&version={VERSION}'
+        self.__proxy: Dict = self.set_proxy(args.proxy)        
+
+    @staticmethod
+    def set_proxy(proxy: str) -> Dict:
+        """return proxy dict used by requests based on option passed to argparse
+        Not using provided method from CMK 2.1 for compatibility to CMK 2.0.
+        """
+        if proxy == 'FROM_ENVIRONMENT' or proxy is None:
+            return None
+
+        elif proxy == 'NO_PROXY':
+            return {"http": '', 'https': ''}
+
+        else:
+            return {'http': proxy, 'https': proxy}
+
+    @property
+    def proxy(self):
+        """proxy for requests. let's use properties to protect the proxy settings from outside the class"""
+        return self.__proxy
+
+    @property
+    def session(self) -> requests.Session:
+        """create a new requests Session and set trust_env accordingly
+
+        more details about trust_env: https://docs.python-requests.org/en/latest/api/#requests.Session.trust_env
+        """
+        session = requests.Session()
+        session.trust_env = True if self.proxy is None else False  # Only use proxy from environment, if self.proxy is None
+        return session
+
+    def get_data(self) -> Dict:
+        response = self.session.get(self.url, proxies=self.proxy)
+        response.raise_for_status()
+        return response.json()
+
+
+###############################################################################
+# Main programm flow                                                          #
+###############################################################################
+
+class OutputWriter:
+    """The OutputWriter handles the writing of the agent output
+
+    - write header with version of the plugin
+    - define a seperator for the special agent
+    - write the agent secions
+    """
+
+    separation_char: str = '|'
+
+    @staticmethod
+    def write_header():
+        print('<<<check_mk:sep(124)>>>')
+        print(f'Version: {NAME}-{VERSION}')
+        print('AgentOS: Aare Guru')
+
+    @property
+    def seperator(self):
+        index: int = ord(self.separation_char)
+        return f'sep({index})'
+
+    def _write_section(self, section_name: str, section_data: dict):
+        print(f'<<<aare_guru_{section_name}:{self.seperator}>>>')
+        print(json.dumps(section_data))
+
+    def write_sections(self, data: dict):
+        for k, v in data.items():
+            if k in SECTIONS:
+                self._write_section(k, v)
+
+
+###############################################################################
+# Main programm flow                                                          #
+###############################################################################
+
+def main(args):
+    api = AareGuru(args)
+    data: dict = api.get_data()
+
+    writer = OutputWriter()
+    writer.write_header()
+    writer.write_sections(data)
+
+
+###############################################################################
+# Argument parsing                                                            #
+###############################################################################
+
+def parse_arguments():
+    parser = ArgumentParser(description=__doc__)
+    parser.add_argument('--city', type=str, required=True, default='bern', metavar="CITY",
+                        help='The city for which the values will be shown')
+
+    parser.add_argument('--proxy', type=str, required=False, default='FROM_ENVIRONMENT', metavar="PROXY",
+                        help='proxy server to be used for request. Either pass explitily '
+                             'http://proxy.domain.tld[:PORT] or either FROM_ENVIRONMENT or NO_PROXY')
+
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_arguments()
+    main(args)
