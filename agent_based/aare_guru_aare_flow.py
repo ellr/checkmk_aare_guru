@@ -21,6 +21,8 @@ Authors:    Roger Ellenberger <roger.ellenberger@wagner.ch>
 
 from __future__ import annotations
 
+from agent_based.aare_guru_utils import cubic_metres
+
 from .agent_based_api.v1.type_defs import CheckResult
 from .agent_based_api.v1 import (
     register,
@@ -29,12 +31,6 @@ from .agent_based_api.v1 import (
     State,
 )
 from .aare_guru_aare import Aare, discover_aare_guru_aare
-
-
-def cubic_metres(value):
-    if value <= 0:
-        return 'nothing'
-    return f'{int(value)} m³/s'
 
 
 def check_aare_guru_aare_flow(section: Aare) -> CheckResult:

@@ -22,3 +22,9 @@ Authors:    Roger Ellenberger <roger.ellenberger@wagner.ch>
 
 def render_temperature(value):
     return f'{value} °C'
+
+
+def cubic_metres(value):
+    if value <= 0:
+        return 'nothing'
+    return f'{int(value)} m³/s'
