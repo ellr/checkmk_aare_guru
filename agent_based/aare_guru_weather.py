@@ -20,11 +20,18 @@ Authors:    Roger Ellenberger <roger.ellenberger@wagner.ch>
 """
 
 from __future__ import annotations
+from typing import Optional
 import json
+from agent_based.aare_guru_utils import render_temperature
 
 from pydantic import BaseModel, Field
 
-from .agent_based_api.v1 import register
+from .agent_based_api.v1.type_defs import CheckResult
+from .agent_based_api.v1 import (
+    register,
+    check_levels,
+)
+from .agent_based_api.v1.render import percent
 
 
 class WeatherCurrent(BaseModel):
@@ -72,3 +79,31 @@ register.agent_section(
     name='aare_guru_weather',
     parse_function=parse_aare_guru_weather,
 )
+
+
+def check_aare_guru_weather_temp(temperature: Optional[float]) -> CheckResult:
+    yield from check_levels(
+        temperature,
+        metric_name='temperature',
+        label='Luft Tämperatur',
+        render_func=render_temperature,
+    )
+
+
+def check_aare_guru_weather_rain(
+        rainfall: Optional[float | int], 
+        rain_risk: Optional[int] = None) -> CheckResult:
+
+    yield from check_levels(
+        rainfall,
+        metric_name='rainfall',
+        label='Räge',
+        render_func=lambda r: f'{r} mm/10min',
+    )
+    if rain_risk is not None:
+        yield from check_levels(
+            rain_risk,
+            metric_name='rain_risk',
+            label='Räge risiko',
+            render_func=percent,
+        )
