@@ -29,6 +29,7 @@ from .agent_based_api.v1 import (
     State,
 )
 from .aare_guru_aare import Aare, discover_aare_guru_aare
+from agent_based.aare_guru_utils import render_temperature
 
 
 def check_aare_guru_aare_temperature(section: Aare) -> CheckResult:
@@ -37,7 +38,7 @@ def check_aare_guru_aare_temperature(section: Aare) -> CheckResult:
         boundaries=(0, None),
         metric_name='temperature',
         label='Tämperatur',
-        render_func=lambda t: f'{t} °C',
+        render_func=render_temperature,
     )
     yield Result(state=State.OK, summary=section.temperature_text_short, details=section.temperature_text)
 
