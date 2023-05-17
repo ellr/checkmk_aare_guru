@@ -35,7 +35,6 @@ from .aare_guru_utils import render_temperature
 def check_aare_guru_aare_temperature(section: Aare) -> CheckResult:
     yield from check_levels(
         section.temperature,
-        boundaries=(0, None),
         metric_name='temperature',
         label='Tämperatur',
         render_func=render_temperature,

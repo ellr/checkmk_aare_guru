@@ -20,7 +20,6 @@ Authors:    Roger Ellenberger <roger.ellenberger@wagner.ch>
 """
 
 from __future__ import annotations
-from typing import Dict
 
 from .agent_based_api.v1.type_defs import CheckResult
 from .agent_based_api.v1 import (

@@ -27,63 +27,17 @@ from cmk.base.plugins.agent_based.aare_guru_weather import (
 
 
 SECTION_1: Weather = Weather(
-    current=WeatherCurrent(
-        tt=14.8,
-        rrreal=0.2,
-    ),
+    current=WeatherCurrent(tt=14.8, rrreal=0.2),
     today=WeatherToday(
-        v=WeatherTodayDetail(
-            tt=16.0,
-            rr=0,
-            rrisk=0,
-            syt='bewöukt',
-        ),
-        n=WeatherTodayDetail(
-            tt=17.0,
-            rr=2,
-            rrisk=90,
-            syt='e gutsch',
-        ),
-        a=WeatherTodayDetail(
-            tt=15.0,
-            rr=13,
-            rrisk=90,
-            syt='starche räge',
-        )
+        v=WeatherTodayDetail(tt=16.0, rr=0, rrisk=0, syt='bewöukt'),
+        n=WeatherTodayDetail(tt=17.0, rr=2, rrisk=90, syt='e gutsch'),
+        a=WeatherTodayDetail(tt=15.0, rr=13, rrisk=90, syt='starche räge')
     ),
     forecast=[
-        WeatherForecast(
-            day='Mitwuch',
-            syt='e gutsch',
-            tn=10.0,
-            tx=14.0,
-            rr=5,
-            rrisk=90
-        ),
-        WeatherForecast(
-            day='Donschti',
-            syt='e gutsch',
-            tn=5.0,
-            tx=14.0,
-            rr=2,
-            rrisk=70
-        ),
-        WeatherForecast(
-            day='Friti',
-            syt='e gutsch',
-            tn=7.0,
-            tx=13.0,
-            rr=2,
-            rrisk=70
-        ), 
-        WeatherForecast(
-            day='Samschti',
-            syt='bewöukt',
-            tn=7.0,
-            tx=15.0,
-            rr=1,
-            rrisk=30
-        ),
+        WeatherForecast(day='Mitwuch', syt='e gutsch', tn=10.0, tx=14.0, rr=5, rrisk=90),
+        WeatherForecast(day='Donschti', syt='e gutsch', tn=5.0, tx=14.0, rr=2, rrisk=70),
+        WeatherForecast(day='Friti', syt='e gutsch', tn=7.0, tx=13.0, rr=2, rrisk=70),
+        WeatherForecast(day='Samschti', syt='bewöukt', tn=7.0, tx=15.0, rr=1, rrisk=30),
     ]
 )
 

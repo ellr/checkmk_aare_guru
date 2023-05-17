@@ -35,13 +35,11 @@ from .aare_guru_utils import render_temperature
 def check_aare_guru_aare_forecast(section: Aare) -> CheckResult:
     yield from check_levels(
         section.forecast2h,
-        boundaries=(0, None),
         metric_name='temperature',
         label='Tämperatur i zwe Stung',
         render_func=render_temperature,
     )
-    yield Result(state=State.OK,
-                 summary=section.forecast2h_text)
+    yield Result(state=State.OK, summary=section.forecast2h_text)
 
 
 register.check_plugin(
