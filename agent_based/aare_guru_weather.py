@@ -22,7 +22,6 @@ Authors:    Roger Ellenberger <roger.ellenberger@wagner.ch>
 from __future__ import annotations
 from typing import Optional
 import json
-from agent_based.aare_guru_utils import render_temperature
 
 from pydantic import BaseModel, Field
 
@@ -32,6 +31,7 @@ from .agent_based_api.v1 import (
     check_levels,
 )
 from .agent_based_api.v1.render import percent
+from .aare_guru_utils import render_temperature
 
 
 class WeatherCurrent(BaseModel):
