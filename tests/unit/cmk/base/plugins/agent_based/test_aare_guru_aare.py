@@ -12,11 +12,18 @@
 # to the Free Software Foundation, Inc., 51 Franklin St,  Fifth Floor,
 # Boston, MA 02110-1301 USA.
 
-from typing import List
+from typing import List, Tuple
 
 import pytest
 
+from cmk.base.plugins.agent_based.agent_based_api.v1 import Result, State, Metric
+
 from cmk.base.plugins.agent_based.aare_guru_aare import Aare, parse_aare_guru_aare
+from cmk.base.plugins.agent_based.aare_guru_aare_temperature import check_aare_guru_aare_temperature
+from cmk.base.plugins.agent_based.aare_guru_aare_location import check_aare_guru_aare_location
+from cmk.base.plugins.agent_based.aare_guru_aare_flow import check_aare_guru_aare_flow
+from cmk.base.plugins.agent_based.aare_guru_aare_forecast import check_aare_guru_aare_forecast
+
 
 
 SECTION_1: Aare = Aare(
@@ -63,3 +70,69 @@ SECTION_1: Aare = Aare(
 )
 def test_parse_aare_guru_aare(string_table: List[List[str]], expected_section: Aare) -> None:
     assert parse_aare_guru_aare(string_table) == expected_section
+
+
+@pytest.mark.parametrize(
+    "section, expected_check_result",
+    [
+        (
+            SECTION_1,
+            (
+                Result(state=State.OK, summary='Tämperatur: 12.8 °C'),
+                Metric('temperature', 12.8),
+                Result(state=State.OK, summary='Gschider la si', details='Las vilech gschider lasii'),
+            ),
+        ),
+    ],
+)
+def test_check_aare_guru_aare_temperature(section: Aare, expected_check_result: Tuple) -> None:
+    assert tuple(check_aare_guru_aare_temperature(section)) == expected_check_result
+
+
+@pytest.mark.parametrize(
+    "section, expected_check_result",
+    [
+        (
+            SECTION_1,
+            (
+                Result(state=State.OK, summary='Bärn'),
+            ),
+        ),
+    ],
+)
+def test_check_aare_guru_aare_location(section: Aare, expected_check_result: Tuple) -> None:
+    assert tuple(check_aare_guru_aare_location(section)) == expected_check_result
+
+
+@pytest.mark.parametrize(
+    "section, expected_check_result",
+    [
+        (
+            SECTION_1,
+            (
+                Result(state=State.OK, summary='Wassermängi: 261 m³/s'),
+                Metric('water_flow', 261.0, boundaries=(0.0, None)),
+                Result(state=State.OK, summary='⚠️ mega viu'),
+            ),
+        ),
+    ],
+)
+def test_check_aare_guru_aare_flow(section: Aare, expected_check_result: Tuple) -> None:
+    assert tuple(check_aare_guru_aare_flow(section)) == expected_check_result
+
+
+@pytest.mark.parametrize(
+    "section, expected_check_result",
+    [
+        (
+            SECTION_1,
+            (
+                Result(state=State.OK, summary='Tämperatur i zwe Stung: 12.8 °C'),
+                Metric('temperature', 12.8),
+                Result(state=State.OK, summary='Blibt äuä öpe glich'),
+            ),
+        ),
+    ],
+)
+def test_check_aare_guru_aare_forecast(section: Aare, expected_check_result: Tuple) -> None:
+    assert tuple(check_aare_guru_aare_forecast(section)) == expected_check_result
