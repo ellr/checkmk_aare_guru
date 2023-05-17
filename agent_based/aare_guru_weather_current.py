@@ -25,20 +25,22 @@ from .agent_based_api.v1.type_defs import CheckResult, DiscoveryResult
 from .agent_based_api.v1 import (
     register,
     Service,
+    Result,
+    State,
 )
 from .aare_guru_weather import (
-    Weather,
     check_aare_guru_weather_temp,
     check_aare_guru_weather_rain,
 )
 
 
-def discover_aare_guru_weather_current(section: Weather) -> DiscoveryResult:
+def discover_aare_guru_weather_current(section_aare_guru_weather, section_aare_guru_sun) -> DiscoveryResult:
     yield Service()
 
 
-def check_aare_guru_weather_current(section: Weather) -> CheckResult:
-    weather = section.current
+def check_aare_guru_weather_current(section_aare_guru_weather, section_aare_guru_sun) -> CheckResult:
+    weather = section_aare_guru_weather.current
+    sun = section_aare_guru_sun.today
 
     yield from check_aare_guru_weather_temp(
         temperature=weather.air_temperature,
@@ -46,11 +48,12 @@ def check_aare_guru_weather_current(section: Weather) -> CheckResult:
     yield from check_aare_guru_weather_rain(
         rainfall=weather.rainfall,
     )
+    yield Result(state=State.OK, summary=f'Sunnestunge: {sun.suntotal}')
 
 
 register.check_plugin(
     name='aare_guru_weather_current',
-    sections=['aare_guru_weather'],
+    sections=['aare_guru_weather', 'aare_guru_sun'],
     service_name='Wätter: jtze grad',
     discovery_function=discover_aare_guru_weather_current,
     check_function=check_aare_guru_weather_current,
