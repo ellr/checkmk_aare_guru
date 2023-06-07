@@ -1,0 +1,15 @@
+title: AareGuru weather forecast
+agents: special
+catalog: hw
+license: none
+distribution: check_mk
+description:
+  This check reports the weather forecast (text, temperature, rainfall and rain probabiltiy)
+  for the coming 4 days.
+  It gets the data from aare_guru_weather section.
+
+items:
+  Forecast day.
+
+discovery:
+  One item per forecast day is discovered.

@@ -1,0 +1,11 @@
+title: AareGuru Aare flow
+agents: special
+catalog: hw
+license: none
+distribution: check_mk
+description:
+  This check reports the amount of water that is currently flowing through the river.
+  It gets the data from aare_guru_aare section.
+
+discovery:
+  A single item is discovered.
