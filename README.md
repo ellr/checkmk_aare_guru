@@ -12,7 +12,7 @@ It was created for training purposes. And to see on which days one needs to get 
 
 ## Authors
 
-- Roger Ellenberger <roger.ellenberger@wagner.ch> migrated the plugin to CheckMK 2.0
+- Roger Ellenberger <roger.ellenberger@wagner.ch> wrote this plugin for training purposes
 
 
 ## Development

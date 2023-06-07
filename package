@@ -1,0 +1,42 @@
+{
+    'author': u'WAGNER AG',
+    'description': u'Plugin for AareGuru (aare.guru)',
+    'download_url': '',
+    'files': {
+        'agent_based': [
+            'aare_guru_aare.py',
+            'aare_guru_aare_flow.py',
+            'aare_guru_aare_forecast.py',
+            'aare_guru_aare_location.py',
+            'aare_guru_aare_temperature.py',
+            'aare_guru_bueber.py',
+            'aare_guru_sun.py',
+            'aare_guru_utils.py',
+            'aare_guru_weather.py',
+            'aare_guru_weather_current.py',
+            'aare_guru_weather_forecast.py',
+            'aare_guru_weather_today.py',
+        ],
+        'agents': ['special/agent_aare_guru'],
+        'checkman': [
+            'aare_guru_aare_flow',
+            'aare_guru_weather_forecast',
+        ],
+        'checks': ['agent_aare_guru'],
+        'doc': [],
+        'inventory': [],
+        'notifications': [],
+        'pnp-templates': [],
+        'web': [
+            'plugins/metrics/aare_guru_metrics.py',
+            'plugins/perfometer/aare_guru_perfometer.py',
+            'plugins/wato/aare_guru_check_parameters.py',
+            'plugins/wato/aare_guru_datasource.py',
+        ]
+    },
+    'name': 'aare_guru',
+    'title': u'Special agent for AareGuru',
+    'version': '0.1',
+    'version.min_required': '2.1.0',
+    'version.packaged': '2.1.0p19'
+}
