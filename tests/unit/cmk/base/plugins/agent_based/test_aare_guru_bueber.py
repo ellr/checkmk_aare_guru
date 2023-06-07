@@ -25,6 +25,9 @@ SECTION_1: SwimmingPassage = SwimmingPassage(
 )
 
 
+# TODO extend tests with state flag open
+
+
 @pytest.mark.parametrize(
     "string_table, expected_section",
     [
