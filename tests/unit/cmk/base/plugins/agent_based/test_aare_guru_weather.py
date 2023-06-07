@@ -12,10 +12,13 @@
 # to the Free Software Foundation, Inc., 51 Franklin St,  Fifth Floor,
 # Boston, MA 02110-1301 USA.
 
-from typing import List
+from typing import List, Tuple
 
 import pytest
 
+from cmk.base.plugins.agent_based.agent_based_api.v1 import Result, State, Metric
+
+from cmk.base.plugins.agent_based.aare_guru_sun import Sun, SunData
 from cmk.base.plugins.agent_based.aare_guru_weather import (
     parse_aare_guru_weather,
     Weather,
@@ -24,9 +27,18 @@ from cmk.base.plugins.agent_based.aare_guru_weather import (
     WeatherTodayDetail,
     WeatherForecast,
 )
+from cmk.base.plugins.agent_based.aare_guru_weather_current import check_aare_guru_weather_current
 
 
-SECTION_1: Weather = Weather(
+SECTION_SUN: Sun = Sun(
+    today=SunData(
+        suntotal='12:44',
+        sunrelative=81,
+    )
+)
+
+
+SECTION_WEATHER: Weather = Weather(
     current=WeatherCurrent(tt=14.8, rrreal=0.2),
     today=WeatherToday(
         v=WeatherTodayDetail(tt=16.0, rr=0, rrisk=0, syt='bewöukt'),
@@ -59,9 +71,29 @@ SECTION_1: Weather = Weather(
                  '"timestamp": 1683993500, "sy": "c", "syt": "bew\u00f6ukt", "symt": 3, "tx": 15, "tn": 7, "rr": 1, '
                  '"rrisk": 30}]}'],
             ],
-            SECTION_1,
+            SECTION_WEATHER,
         ),
     ],
 )
 def test_parse_aare_guru_weather(string_table: List[List[str]], expected_section: Weather) -> None:
     assert parse_aare_guru_weather(string_table) == expected_section
+
+
+@pytest.mark.parametrize(
+    "section_weather, section_sun, expected_check_result",
+    [
+        (
+            SECTION_WEATHER,
+            SECTION_SUN,
+            (
+                Result(state=State.OK, summary='Luft Tämperatur: 14.8 °C'),
+                Metric('temperature', 14.8),
+                Result(state=State.OK, summary='Räge: 0.2 mm/10min'),
+                Metric('rainfall', 0.2),
+                Result(state=State.OK, summary='Sunnestunge: 12:44'),
+            ),
+        ),
+    ],
+)
+def test_check_aare_guru_aare_forecast(section_weather: Weather, section_sun: Sun, expected_check_result: Tuple) -> None:
+    assert tuple(check_aare_guru_weather_current(section_weather, section_sun)) == expected_check_result
