@@ -1,0 +1,154 @@
+[
+    {
+        "city": "brienz",
+        "name": "Brienz",
+        "longname": "Brienzwiler",
+        "coordinates": {
+            "lat": 46.75,
+            "lon": 8.09
+        },
+        "aare": 7.8,
+        "aare_prec": 7.75,
+        "sy": 10,
+        "tn": 10,
+        "tx": 19,
+        "forecast": false,
+        "time": 1683643200,
+        "url": "https:\/\/aareguru.existenz.ch\/v2018\/current?city=brienz",
+        "today": "https:\/\/aareguru.existenz.ch\/v2018\/today?city=brienz",
+        "widget": "https:\/\/aareguru.existenz.ch\/v2018\/widget?city=brienz"
+    },
+    {
+        "city": "interlaken",
+        "name": "Interlake",
+        "longname": "Ringgenberg, Goldswil",
+        "coordinates": {
+            "lat": 46.69,
+            "lon": 7.88
+        },
+        "aare": 11.4,
+        "aare_prec": 11.37,
+        "sy": 10,
+        "tn": 10,
+        "tx": 18,
+        "forecast": false,
+        "time": 1683643800,
+        "url": "https:\/\/aareguru.existenz.ch\/v2018\/current?city=interlaken",
+        "today": "https:\/\/aareguru.existenz.ch\/v2018\/today?city=interlaken",
+        "widget": "https:\/\/aareguru.existenz.ch\/v2018\/widget?city=interlaken"
+    },
+    {
+        "city": "thun",
+        "name": "Thun",
+        "longname": "Thun",
+        "coordinates": {
+            "lat": 46.76,
+            "lon": 7.61
+        },
+        "aare": 12,
+        "aare_prec": 11.99,
+        "sy": 10,
+        "tn": 10,
+        "tx": 18,
+        "forecast": false,
+        "time": 1683643800,
+        "url": "https:\/\/aareguru.existenz.ch\/v2018\/current?city=thun",
+        "today": "https:\/\/aareguru.existenz.ch\/v2018\/today?city=thun",
+        "widget": "https:\/\/aareguru.existenz.ch\/v2018\/widget?city=thun"
+    },
+    {
+        "city": "bern",
+        "name": "B\u00e4rn",
+        "longname": "Bern, Sch\u00f6nau",
+        "coordinates": {
+            "lat": 46.93,
+            "lon": 7.45
+        },
+        "aare": 12.9,
+        "aare_prec": 12.92,
+        "sy": 10,
+        "tn": 10,
+        "tx": 18,
+        "forecast": false,
+        "time": 1683643800,
+        "url": "https:\/\/aareguru.existenz.ch\/v2018\/current?city=bern",
+        "today": "https:\/\/aareguru.existenz.ch\/v2018\/today?city=bern",
+        "widget": "https:\/\/aareguru.existenz.ch\/v2018\/widget?city=bern"
+    },
+    {
+        "city": "hagneck",
+        "name": "Hagneck",
+        "longname": "Hagneck",
+        "coordinates": {
+            "lat": 47.06,
+            "lon": 7.18
+        },
+        "aare": 12.9,
+        "aare_prec": 12.91,
+        "sy": 10,
+        "tn": 10,
+        "tx": 18,
+        "forecast": false,
+        "time": 1683643800,
+        "url": "https:\/\/aareguru.existenz.ch\/v2018\/current?city=hagneck",
+        "today": "https:\/\/aareguru.existenz.ch\/v2018\/today?city=hagneck",
+        "widget": "https:\/\/aareguru.existenz.ch\/v2018\/widget?city=hagneck"
+    },
+    {
+        "city": "biel",
+        "name": "Biu",
+        "longname": "Br\u00fcgg, Aegerten",
+        "coordinates": {
+            "lat": 47.12,
+            "lon": 7.28
+        },
+        "aare": 12.2,
+        "aare_prec": 12.23,
+        "sy": 10,
+        "tn": 10,
+        "tx": 18,
+        "forecast": false,
+        "time": 1683643800,
+        "url": "https:\/\/aareguru.existenz.ch\/v2018\/current?city=biel",
+        "today": "https:\/\/aareguru.existenz.ch\/v2018\/today?city=biel",
+        "widget": "https:\/\/aareguru.existenz.ch\/v2018\/widget?city=biel"
+    },
+    {
+        "city": "olten",
+        "name": "Oute",
+        "longname": "Oute",
+        "coordinates": {
+            "lat": 47.35,
+            "lon": 7.9
+        },
+        "aare": 13.4,
+        "aare_prec": 13.43,
+        "sy": 10,
+        "tn": 11,
+        "tx": 19,
+        "forecast": false,
+        "time": 1683644483,
+        "url": "https:\/\/aareguru.existenz.ch\/v2018\/current?city=olten",
+        "today": "https:\/\/aareguru.existenz.ch\/v2018\/today?city=olten",
+        "widget": "https:\/\/aareguru.existenz.ch\/v2018\/widget?city=olten"
+    },
+    {
+        "city": "brugg",
+        "name": "Brugg AG",
+        "longname": "Brugg, Argou",
+        "coordinates": {
+            "lat": 47.48,
+            "lon": 8.19
+        },
+        "aare": 14.5,
+        "aare_prec": 14.45,
+        "sy": 10,
+        "tn": 10,
+        "tx": 19,
+        "forecast": false,
+        "time": 1683643800,
+        "url": "https:\/\/aareguru.existenz.ch\/v2018\/current?city=brugg",
+        "today": "https:\/\/aareguru.existenz.ch\/v2018\/today?city=brugg",
+        "widget": "https:\/\/aareguru.existenz.ch\/v2018\/widget?city=brugg"
+    }
+]
